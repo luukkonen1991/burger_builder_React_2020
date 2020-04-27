@@ -27,7 +27,8 @@ class BurgerBuilder extends Component {
       meat: 0
     },
     totalPrice: 4,
-    rdyToBuy: false
+    rdyToBuy: false,
+    buying: false
   };
 
   updateRdyToBuyState(ingredients) {
@@ -78,6 +79,12 @@ class BurgerBuilder extends Component {
     this.updateRdyToBuyState(updatedIngredients);
   };
 
+  buyHandler = () => {
+    this.setState({
+      buying: true
+    });
+  };
+
   render() {
 
     const disableInfo = {
@@ -90,7 +97,7 @@ class BurgerBuilder extends Component {
 
     return (
       <Auxiliary>
-        <Modal>
+        <Modal show={this.state.buying} >
           <OrderSummary ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
@@ -100,6 +107,8 @@ class BurgerBuilder extends Component {
           disabled={disableInfo}
           price={this.state.totalPrice}
           rdyToBuy={this.state.rdyToBuy}
+          buying={this.state.buying}
+          ordered={this.buyHandler}
         />
       </Auxiliary>
     );
