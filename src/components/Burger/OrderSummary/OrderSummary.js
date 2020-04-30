@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import Auxiliary from '../../../hoc/Auxiliary';
+import Auxiliary from '../../../hoc/Auxiliary/Auxiliary';
 import Button from '../../UI/Button/Button';
 
 class OrderSummary extends Component {
-
+  // This cloud be a functional component => doesent have to be class
   componentDidUpdate() {
     console.log('componentDidUpdate');
   }
