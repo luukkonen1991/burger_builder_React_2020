@@ -6,6 +6,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -29,7 +30,8 @@ class BurgerBuilder extends Component {
     },
     totalPrice: 4,
     rdyToBuy: false,
-    buying: false
+    buying: false,
+    loading: false
   };
 
   updateRdyToBuyState(ingredients) {
@@ -93,6 +95,9 @@ class BurgerBuilder extends Component {
   };
 
   buyContinueHandler = () => {
+    this.setState({
+      loading: true
+    });
     // alert('you continue');
     const order = {
       ingredients: this.state.ingredients,
@@ -110,10 +115,10 @@ class BurgerBuilder extends Component {
     };
     axios.post('/orders.json', order)
       .then(resp => {
-        console.log(resp);
+        this.setState({ loading: false, buying: false });
       })
       .catch(error => {
-        console.log(error);
+        this.setState({ loading: false, buying: false });
       });
   };
 
@@ -126,18 +131,22 @@ class BurgerBuilder extends Component {
     for (let key in disableInfo) {
       disableInfo[key] = disableInfo[key] <= 0;
     }
+    let orderSummary = <OrderSummary
+      ingredients={this.state.ingredients}
+      price={this.state.totalPrice}
+      buyCancelled={this.buyCancelHandler}
+      buyContinued={this.buyContinueHandler}
+    />;
+    if (this.state.loading) {
+      orderSummary = <Spinner />;
+    }
 
     return (
       <Auxiliary>
         <Modal
           show={this.state.buying}
           modalClosed={this.buyCancelHandler}>
-          <OrderSummary
-            ingredients={this.state.ingredients}
-            price={this.state.totalPrice}
-            buyCancelled={this.buyCancelHandler}
-            buyContinued={this.buyContinueHandler}
-          />
+          {orderSummary}
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
