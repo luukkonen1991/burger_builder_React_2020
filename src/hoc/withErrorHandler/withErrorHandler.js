@@ -6,26 +6,46 @@ import Auxiliary from '../Auxiliary/Auxiliary';
 
 const withErrorHandler = (WrappedComponent, axios) => {
   return class extends Component {
-
+    // constructor(props) {
+    //   super(props);
+    //   this.state = {
+    //     error: null,
+    //     intialized: false
+    //   };
+    // }
     state = {
+      initialized: false,
       error: null
     };
 
     componentDidMount() {
-      axios.interceptors.request.use(req => {
+      this.requestInterceptor = axios.interceptors.request.use(req => {
         this.setState({ error: null });
         return req;
       });
-      axios.interceptors.response.use(res => res, error => {
+      this.responseInterceptor = axios.interceptors.response.use(res => res, error => {
         this.setState({ error: error });
       });
+      this.setState({ initialized: true });
     }
+
+    // componentWillMount() {
+    //   axios.interceptors.request.use(req => {
+    //     this.setState({ error: null });
+    //     return req;
+    //   });
+    //   axios.interceptors.response.use(res => res, error => {
+    //     this.setState({ error: error });
+    //   });
+    // }
 
     errorConfirmedHandler = () => {
       this.setState({ error: null });
     };
 
     render() {
+      const { initialized } = this.state;
+      if (!initialized) return null;
       return (
         <Auxiliary>
           <Modal
