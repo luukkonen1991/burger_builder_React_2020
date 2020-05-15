@@ -40,7 +40,7 @@ class Checkout extends Component {
     let summary = <Redirect to="/" />;
     if (this.props.ings) {
       const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
-      summary = (
+      summary =
         <div>
           {purchasedRedirect}
           <CheckoutSummary
@@ -51,10 +51,12 @@ class Checkout extends Component {
             path={this.props.match.path + '/contact-data'}
             component={ContactData} />
         </div>
-      );
+        ;
     }
     return (
-      { summary }
+      <div>
+        {summary}
+      </div>
     );
   }
 }
