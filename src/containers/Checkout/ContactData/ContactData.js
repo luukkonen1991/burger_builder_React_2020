@@ -131,8 +131,7 @@ class ContactData extends Component {
       value: event.target.value,
       valid: checkValidity(event.target.value, this.state.orderForm[inputIdentifier].validation),
       touched: true
-    },
-      console.log(this.state.orderForm));
+    });
 
     const updatedOrderForm = updateObject(this.state.orderForm, {
       [inputIdentifier]: updatedFormElement
