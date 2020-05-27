@@ -6,7 +6,7 @@ import Button from '../../UI/Button/Button';
 class OrderSummary extends Component {
   // This cloud be a functional component => doesent have to be class
   componentDidUpdate() {
-    console.log('componentDidUpdate');
+    // console.log('componentDidUpdate');
   }
 
   render() {
